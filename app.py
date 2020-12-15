@@ -69,23 +69,19 @@ if changeInput['changeDefault'] == 'Yes':
 
         def inclUpper():
             global upper
-            change = inquirer.prompt(questions['changeUpper'])
-            upper = True if change['changeUpper'] == 'Yes' else False
+            upper = True if inquirer.prompt(questions['changeUpper']) == 'Yes' else False
 
         def inclLower():
             global lower
-            change = inquirer.prompt(questions['changeLower'])
-            lower = True if change['changeLower'] == 'Yes' else False
+            lower = True if inquirer.prompt(questions['changeLower']) == 'Yes' else False
 
         def inclNum():
             global numbers
-            change = inquirer.prompt(questions['changeNumber'])
-            numbers = True if change['changeNumber'] == 'Yes' else False
+            numbers = True if inquirer.prompt(questions['changeNumber']) == 'Yes' else False
 
         def inclSymb():
             global symbols
-            change = inquirer.prompt(questions['changeSymbol'])
-            symbols = True if change['changeSymbol'] == 'Yes' else False
+            symbols = True if inquirer.prompt(questions['changeSymbol']) == 'Yes' else False
 
         changeDefaults = {
             'Password Length': passLength,
