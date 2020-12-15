@@ -3,11 +3,11 @@ import string
 import inquirer
 
 # set default password requirements
-length = 5
-includeLower = True
-includeUpper = True
-includeNums = True
-includeSymbols = True
+length = 8
+lower = True
+upper = True
+numbers = True
+symbols = True
 
 questions = {
     'changeDefault': [inquirer.List(
@@ -20,7 +20,7 @@ questions = {
         message='Which setting would you like to modify?: ',
         choices=['Password Length', 'Includes Uppercase', 'Includes Lowercase', 'Includes Numbers', 'Includes Symbols']
     )],
-   'changeAnother': [inquirer.List(
+    'changeAnother': [inquirer.List(
         'changeAnother',
         message='Would you like to change another setting?',
         choices=['Yes', 'No']
@@ -54,7 +54,8 @@ changeAnother = {
 # tell user the default requirements
 print(
     'Welcome to the Password Generator! \n\n' +
-    'By default, your password will be 5 characters in length and will include lowercase letters, uppercase letters, numbers, and symbols. \n'
+    'By default, your password will be 8 characters in length and will include' +
+    ' lowercase letters, uppercase letters, numbers, and symbols. \n'
 )
 
 changeInput = inquirer.prompt(questions['changeDefault'])
@@ -63,35 +64,28 @@ if changeInput['changeDefault'] == 'Yes':
     while changeAnother['changeAnother'] == 'Yes':
 
         def passLength():
+            global length
             length = int(input('How long would you like your password to be?: '))
 
         def inclUpper():
-            userChangeUpper = inquirer.prompt(questions['changeUpper'])
-            if (userChangeUpper['changeUpper'] == 'Yes'):
-                includeUpper = True
-            else:
-                includeUpper = False
+            global upper
+            change = inquirer.prompt(questions['changeUpper'])
+            upper = True if change['changeUpper'] == 'Yes' else False
 
         def inclLower():
-            userChangeLower = inquirer.prompt(questions['changeLower'])
-            if (userChangeLower['changeLower'] == 'Yes'):
-                includeLower = True
-            else:
-                includeLower = False
+            global lower
+            change = inquirer.prompt(questions['changeLower'])
+            lower = True if change['changeLower'] == 'Yes' else False
 
         def inclNum():
-            userChangeNumber = inquirer.prompt(questions['changeNumber'])
-            if (userChangeNumber['changeNumber'] == 'Yes'):
-                includeNums = True
-            else:
-                includeNums = False
+            global numbers
+            change = inquirer.prompt(questions['changeNumber'])
+            numbers = True if change['changeNumber'] == 'Yes' else False
 
         def inclSymb():
-            userChangeSymbol = inquirer.prompt(questions['changeSymbol'])
-            if (userChangeSymbol['changeSymbol'] == 'Yes'):
-                includeSymbols = True
-            else:
-                includeSymbols = False
+            global symbols
+            change = inquirer.prompt(questions['changeSymbol'])
+            symbols = True if change['changeSymbol'] == 'Yes' else False
 
         changeDefaults = {
             'Password Length': passLength,
@@ -107,17 +101,15 @@ if changeInput['changeDefault'] == 'Yes':
 
         changeAnother = inquirer.prompt(questions['changeAnother'])
 
-password = []
 password_characters = (
-    string.ascii_letters.upper() if includeUpper else '' +
-    string.ascii_letters.lower() if includeLower else '' +
-    string.digits if includeNums else '' +
-    string.punctuation if includeSymbols else ''
+    (string.ascii_letters.upper() if upper else '') +
+    (string.ascii_letters.lower() if lower else '') +
+    (string.digits if numbers else '') +
+    (string.punctuation if symbols else '')
 )
 
-for i in range(length):
-    password.append(random.choice(password_characters))
+password = ''.join(random.choice(password_characters) for x in range(0, length))
 
-print('Your password is: \n\n' + ''.join(password) + '\n\n Thank you for using the Password Generator!')
+print('Your password is: \n\n' + password + '\n\nThank you for using the Password Generator! \n')
 
 
