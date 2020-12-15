@@ -7,7 +7,7 @@ length = 5
 includeLower = True
 includeUpper = True
 includeNums = True
-inludeSymbols = True
+includeSymbols = True
 
 questions = {
     'changeDefault': [inquirer.List(
@@ -18,7 +18,7 @@ questions = {
     'selectDefault': [inquirer.List(
         'selectDefault',
         message='Which setting would you like to modify?: ',
-        choices=['Password Length', 'Inclues Uppercase', 'Includes Lowercase', 'Includes Numbers', 'Includes Symbols']
+        choices=['Password Length', 'Includes Uppercase', 'Includes Lowercase', 'Includes Numbers', 'Includes Symbols']
     )],
    'changeAnother': [inquirer.List(
         'changeAnother',
@@ -59,54 +59,65 @@ print(
 
 changeInput = inquirer.prompt(questions['changeDefault'])
 
-while changeAnother['changeAnother'] == 'Yes':
+if changeInput['changeDefault'] == 'Yes':
+    while changeAnother['changeAnother'] == 'Yes':
 
-    def passLength():
-        length = int(input('How long would you like your password to be?: '))
+        def passLength():
+            length = int(input('How long would you like your password to be?: '))
 
-    def inclUpper():
-        userChangeUpper = inquirer.prompt(questions['changeUpper'])
-        if (userChangeUpper['changeUpper'] == 'Yes'):
-            includeUpper = True
-        else:
-            includeUpper = False
+        def inclUpper():
+            userChangeUpper = inquirer.prompt(questions['changeUpper'])
+            if (userChangeUpper['changeUpper'] == 'Yes'):
+                includeUpper = True
+            else:
+                includeUpper = False
 
-    def inclLower():
-        userChangeLower = inquirer.prompt(questions['changeLower'])
-        if (userChangeLower['changeLower'] == 'Yes'):
-            includeLower = True
-        else:
-            includeLower = False
+        def inclLower():
+            userChangeLower = inquirer.prompt(questions['changeLower'])
+            if (userChangeLower['changeLower'] == 'Yes'):
+                includeLower = True
+            else:
+                includeLower = False
 
-    def inclNum():
-        userChangeNumber = inquirer.prompt(questions['changeNumber'])
-        if (userChangeNumber['changeNumber'] == 'Yes'):
-            includeNums = True
-        else:
-            includeNums = False
+        def inclNum():
+            userChangeNumber = inquirer.prompt(questions['changeNumber'])
+            if (userChangeNumber['changeNumber'] == 'Yes'):
+                includeNums = True
+            else:
+                includeNums = False
 
-    def inclSymb():
-        userChangeSymbol = inquirer.prompt(questions['changeSymbol'])
-        if (userChangeSymbol['changeSymbol'] == 'Yes'):
-            includeSymbols = True
-        else:
-            includeSymbols = False
+        def inclSymb():
+            userChangeSymbol = inquirer.prompt(questions['changeSymbol'])
+            if (userChangeSymbol['changeSymbol'] == 'Yes'):
+                includeSymbols = True
+            else:
+                includeSymbols = False
 
-    changeDefaults = {
-        'Password Length': passLength,
-        'Inclues Uppercase': inclUpper,
-        'Includes Lowercase': inclLower,
-        'Includes Numbers': inclNum,
-        'Includes Symbols': inclSymb
-    }
+        changeDefaults = {
+            'Password Length': passLength,
+            'Includes Uppercase': inclUpper,
+            'Includes Lowercase': inclLower,
+            'Includes Numbers': inclNum,
+            'Includes Symbols': inclSymb
+        }
 
-    selectDefaultInput = inquirer.prompt(questions['selectDefault'])
+        selectDefaultInput = inquirer.prompt(questions['selectDefault'])
 
-    changeDefaults[selectDefaultInput['selectDefault']]()
+        changeDefaults[selectDefaultInput['selectDefault']]()
 
-    changeAnother = inquirer.prompt(questions['changeAnother'])
+        changeAnother = inquirer.prompt(questions['changeAnother'])
 
+password = []
+password_characters = (
+    string.ascii_letters.upper() if includeUpper else '' +
+    string.ascii_letters.lower() if includeLower else '' +
+    string.digits if includeNums else '' +
+    string.punctuation if includeSymbols else ''
+)
 
+for i in range(length):
+    password.append(random.choice(password_characters))
 
+print('Your password is: \n\n' + ''.join(password) + '\n\n Thank you for using the Password Generator!')
 
 
